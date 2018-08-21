@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+<title>GeoLocaliza - Google Fusion Tables</title>
+<style type="text/css">
+html, body, #googft-mapCanvas {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+</style>
+
+
+
+<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyAVAJ_B2J_Lgk84efM61bhd1D49jEUaVFY&sensor=true"></script>
+
+<script type="text/javascript">
+  function initialize() {
+    var isMobile = (navigator.userAgent.toLowerCase().indexOf('android') > -1) ||
+      (navigator.userAgent.match(/(iPod|iPhone|iPad|BlackBerry|Windows Phone|iemobile)/));
+    if (isMobile) {
+      var viewport = document.querySelector("meta[name=viewport]");
+      viewport.setAttribute('content', 'initial-scale=1.0, user-scalable=no');
+    }
+    var mapDiv = document.getElementById('googft-mapCanvas');
+    mapDiv.style.width = isMobile ? '100%' : '500px';
+    mapDiv.style.height = isMobile ? '100%' : '300px';
+    var map = new google.maps.Map(mapDiv, {
+      center: new google.maps.LatLng( 19.445722,-99.152491),
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    });
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('googft-legend-open'));
+    map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(document.getElementById('googft-legend'));
+
+    layer = new google.maps.FusionTablesLayer({
+      map: map,
+      heatmap: { enabled: false },
+      query: {
+        select: "col0",
+        from: "1rbkKI8EuBzjH0MKnr5dpDMl6DpUzxTzrZrjx4xD7",
+        where: ""
+      },
+      options: {
+        styleId: 2,
+        templateId: 2
+      }
+    });
+
+    if (isMobile) {
+      var legend = document.getElementById('googft-legend');
+      var legendOpenButton = document.getElementById('googft-legend-open');
+      var legendCloseButton = document.getElementById('googft-legend-close');
+      legend.style.display = 'none';
+      legendOpenButton.style.display = 'block';
+      legendCloseButton.style.display = 'block';
+      legendOpenButton.onclick = function() {
+        legend.style.display = 'block';
+        legendOpenButton.style.display = 'none';
+      }
+      legendCloseButton.onclick = function() {
+        legend.style.display = 'none';
+        legendOpenButton.style.display = 'block';
+      }
+    }
+  }
+
+  google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+
+<iframe width="600" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?q=select+col1+from+1lnzQ3W_9ouO3FsqlKtgTxbHHKmekBNE_gB_QlTue&amp;viz=MAP&amp;h=false&amp;lat=19.444190978494976&amp;lng=-99.15245478308725&amp;t=1&amp;z=16&amp;l=col1&amp;y=2&amp;tmplt=2&amp;hml=TWO_COL_LAT_LNG"></iframe>
+
+</head>
+
+<body>
+  <div id="googft-mapCanvas"></div></body>
+  <iframe width="100%" height="300" scrolling="no" frameborder="no" src="https://fusiontables.google.com/embedviz?containerId=googft-gviz-canvas&amp;viz=GVIZ&amp;t=GRAPH&amp;gc=true&amp;gd=false&amp;sdb=1&amp;rmax=100000&amp;q=select+col3%2C+col4%2C+col1+from+1gK7Sy3Y-95F-bpbEYOdr-ZZGnEB1V__qHL7ZO295&amp;qrs=+where+col3+%3E%3D+&amp;qre=+and+col3+%3C%3D+&amp;qe=&amp;uiversion=2&amp;state=%7B%22ps%22%3A%221_0_-23_-5_1k_22_-1e_b_-2q_2j_12_-3m_-2g_d_-1s_2n_g_-3n_28_c_-3x_2e_11_-1j_2c_u_-3x_2p_1l_37_-1v_m_-3r_1t_4o_2y_-2_4j_1o_-2k_4k_23_-2l_4n_3a_-y_4s_3g_-n_4r_2c_6_4p_h_-1d_4l_n_-24_4m_21_7_4q_t_-p_2p_-11_13_2l_-1k_1e_2o_-2l_1e_2n_-t_-14_2m_-m_j_4i_2m_-2i_4h_34_-2a_4g_r_-17_4f_2x_-e_3_-1h_-1m_4e_3g_-25_i_-2k_15_z_-1f_1c_s_-31_v_x_-36_12_w_-3l_g_13_-57_-2i_14_-4w_-1j_15_-2a_-1k_16_-4r_-1y_17_-56_-27_18_-20_-2i_19_-21_-2p_1a_-2g_-1f_1b_-2p_-1d_v_-i_-g_t_-1e_-1a_y_-u_g_h_-2a_18_r_-22_1h_q_-3d_-14_p_-32_16_o_-o_-v_n_-1l_-1n_l_-1r_19_k_-4a_27_j_-2t_11_10_-1w_1h_f_-15_2o_e_-15_2d_1_-i_4_a_-3n_-l_9_-1q_1g_8_-20_18_2_-3j_-v_7_-l_-q_2c_-10_-1c_2f_-h_-6_1u_-2x_19_1v_-2g_-1p_1w_-18_-1i_1x_-3o_-g_1y_-2r_-1l_1z_-31_-1f_20_-1g_13_21_-16_x_22_-v_-q_23_-3a_y_24_-3j_l_25_-3c_h_26_-14_-1f_27_-3p_-a_28_-u_w_29_-35_-1c_2a_-3j_-4_2b_-x_-18_1t_-y_10_2d_-34_-13_2e_-1a_19_1d_-26_-1r_2g_-37_o_2h_-3g_-z_2i_-3h_9_2j_-2f_1g_2k_-r_s_1e_-21_-2b_1f_-4s_-2f_1g_-2c_-2m_1h_-2w_-18_1i_-53_-1v_1j_-2o_-2o_4u_2n_3_4t_1f_2_1m_-h_-1_1n_-h_-b_1o_-2r_1c_1p_-3i_-d_1q_-z_p_1r_-o_o_1s_-3e_-q_48_r_-2b_4c_3n_-1e_4a_3m_-11_49_1q_6_4d_h_-1o_47_1c_-2m_4b_3d_-1f_46_w_-2h_44_16_-28_45_12_-2n_43_x_-1v_1c_-23_-2w_42_35_-2k_41_3l_-1s_40_39_-c_3z_12_-5_3y_j_-1w_6_-3p_1_5_-3h_p_4_-29_1h_3r_-q_-10_3q_-k_-m_3p_-p_-4_3n_-2w_-1i_3o_-3n_b_3m_-37_-v_3l_-k_e_2y_-1q_-1p_2z_-3b_-i_30_-3o_6_3b_-15_17_33_-3c_2_32_-q_6_35_-3p_-5_36_-r_-f_37_-2m_-1n_38_-3l_-q_3e_-12_-11_3d_-3e_u_3c_-1v_-1q_34_-20_-1q_3a_-j_a_39_-1c_-1k_31_-3a_-18_3f_-2b_-1q_%22%2C%22cx%22%3A40.83791830452647%2C%22cy%22%3A-56.2616588772531%2C%22sw%22%3A623.0511205302377%2C%22sh%22%3A252.11355457608286%2C%22z%22%3A1.4901776377792373%7D&amp;gco_forceIFrame=true&amp;gco_hasLabelsColumn=true&amp;width=500&amp;height=300"></iframe>
+</html>
